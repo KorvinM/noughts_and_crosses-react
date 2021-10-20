@@ -1,13 +1,134 @@
+/* structure */
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font: 16px 'Roboto', sans-serif;
+  line-height: 1.4;
+  margin:0;
+  background-color: #302f2f;}
+
+main{
+  position: relative;
+  top: 2em;}
+
+header{
+  background-color: #c5c084;
+  position: absolute;
+  top: 0;
+  padding-left: 30px;
+  padding-right: 2.3em;
+  border-radius: 24%;
+  margin: 10px 0;}
+
+footer{
+  background-color: rgba(255, 255, 255, 0.4);
+  padding-left: 30px;
+  padding-right: 2.3em;
+  margin: 10px 0;}
+
+h1, h2{
+  margin: 0;}
+
+h2{
+    text-shadow: 1px 0px 33px whitesmoke;}
+
+ol, ul {
+  padding-left: 30px;}
+
+/*game*/
+.game {
+  display: flex;
+  flex-direction: column;
+  margin: 3vw;}
+
+.game-name{
+  border: 1px gold groove;
+  margin-bottom: 0;
+  border-bottom: 0;
+  padding-left: 1em;
+  background-color: lightgrey;}
+
+.game-board{
+  text-align: center;
+  box-shadow: 1em 0.6em 3.7em gold;
+  padding: 1em;}
+
+.game-board>div{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-content: stretch;
+  flex-basis: 62%;}
+
+.game-grid{
+  border: 2px groove #9b9a19;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  place-items: center;
+  place-content: stretch;}
+
+.square {
+  background: #c1c3c9;
+  border: 4px ridge #9b9a19;
+  font-family: 'Cutive Mono', monospace;
+  font-size: 1em;
+  font-weight: bold;
+  padding: 0;
+  width: 100%;
+  min-width: 38px;
+  height: 0;
+  padding-bottom: 100%;
+  color: white;
+  text-shadow: 1px 1px 8px black;}
+
+.square:focus {
+  outline: none;}
+
+.kbd-navigation .square:focus {
+  background: #ddd;}
+
+.status {
+  border-radius: 4px;
+  box-shadow:-0.4em -0.4em 3.7em whitesmoke;
+  align-self: center;
+  width: 100%;
+  color: whitesmoke;
+  padding: 0.6em 0.4em;}
+
+.status span{
+  font-size: 1.4em;
+  font-family: 'Cutive Mono', monospace;
+  border: 1px solid #c1c3c9;
+  padding: 0 0.24em;}
+
+.game-info {
+  margin-left: 20px;}
+
+@media(max-width: 300px){
+  main{
+    top: 4em;}
+
+  .square{
+    font-size: 2.4em;}
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@media(min-width: 313px){
+  .game-grid{min-width: 30vw;}
+  .square{
+    font-size: 6.2em;
+    line-height: 1.4;}
+}
+
+@media(min-width: 900px){
+  .game-board>div{
+    display: flex;
+    flex-direction: row-reverse;}
+
+  .game-grid{min-width: 36vw;}
+
+  .square{
+    font-size: 10em;
+    line-height: 1;}
+  .status{
+    margin: 0 1em;}
 }
