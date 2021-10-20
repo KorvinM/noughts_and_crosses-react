@@ -128,7 +128,8 @@ function Footer(props) {
     return (
       <>
       <div className="credits">
-        <p>A project by <a href="https://media.korvin.org">Korvin M Media</a></p>
+        <p>A project by <a href="https://media.korvin.org">Korvin M Media</a>, based on the <a href="https://reactjs.org/tutorial/tutorial.html">
+        Intro to React</a> tutorial</p>
         <p className="source">
           <a href="https://githum.com/KorvinM">
           Source code</a>
