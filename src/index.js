@@ -127,12 +127,13 @@ function calculateWinner(squares) {
 function Footer(props) {
     return (
       <>
-      <h2 className="test">
-        Hi there
-      </h2>
-       <p className="test">
-        Hi there
-      </p>
+      <div className="credits">
+        <p>A project by <a href="https://media.korvin.org">Korvin M Media</a></p>
+        <p className="source">
+          <a href="https://githum.com/KorvinM">
+          Source code</a>
+        </p>
+      </div>
       </>
     );
 }
