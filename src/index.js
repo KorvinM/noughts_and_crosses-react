@@ -49,11 +49,12 @@ class Game extends React.Component {
       history: [{
         squares: Array(9).fill(null)
       }],
+      stepNumber: 0,
       xIsNext: true,//X moves 1st by default
     }
   }
   handleClick(i){
-    const history = this.state.history;
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length -1];
     /*create a copy of the squares array, and treat it as immutable*/
     //https://reactjs.org/tutorial/tutorial.html#why-immutability-is-important
@@ -68,21 +69,32 @@ class Game extends React.Component {
       history: history.concat([{
         squares:squares,
       }]),
+      stepNumber: history.length,
       /*flip xIsNext's boolean state*/
       xIsNext: !this.state.xIsNext,
+    });
+  }
+
+  jumpTo(step){
+    this.setState({
+      stepNumber: step,
+      xIsNext: (step % 2) === 0,
     });
   }
   render() {
     /*use most recent history for game status*/
     const history = this.state.history;
-    const current = history[history.length -1];
+    //render last move
+    //const current = history[history.length -1];
+    //render currently selected move
+    const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
     const moves = history.map((step, move) => {
       const desc = move ?
       'Go to move #' + move :
       'Go to game start';
       return (
-        <li>
+        <li key={move}>
           <button onClick={() => this.jumpTo(move)}> {desc}</button>
         </li>
       )
@@ -95,7 +107,7 @@ class Game extends React.Component {
     }
     return (
       <div className="game">
-      <h2 className="game-name">Tic Tac Toe</h2>
+      <h2 className="game-name">Noughts and Crosses</h2>
         <div className="game-board">
           <Board
             squares = {current.squares}
@@ -164,5 +176,5 @@ ReactDOM.render(
 );
 ReactDOM.render(
   <Game />,
-  document.getElementById('ttt')
+  document.getElementById('game')
 );
