@@ -13,52 +13,18 @@ function Square(props){
 }
 
 class Board extends React.Component {
-  constructor (props){
-    super(props);
-    this.state = {
-      squares: Array(9).fill(null),
-      xIsNext: true,//X moves 1st by default
-    };
-  }
-
-  handleClick(i){
-    /*create a copy of the squares array, and treat it as immutable*/
-    //https://reactjs.org/tutorial/tutorial.html#why-immutability-is-important
-    const squares = this.state.squares.slice();
-    /*if a winner, or if a Square is already filled, ignore click & return early*/
-    if (calculateWinner(squares) || squares[i]){
-      return;
-    }
-    squares[i] = this.state.xIsNext ? 'X' : 'O';
-    this.setState({
-      squares:squares,
-      /*flip xIsNext's boolean state*/
-      xIsNext: !this.state.xIsNext,
-    });
-  }
   renderSquare(i) {
     return(//parenthesis prevent js from adding a ; on linebreak
       <Square
-        value={this.state.squares[i]}
-        onClick={()=> this.handleClick(i)}
+        value={this.props.squares[i]}
+        onClick={()=> this.props.onClick(i)}
       />);
   }
 
   render() {
-    //const status = 'Next player: ' + (this.state.xIsNext ? 'X' : '0');
-    const winner = calculateWinner(this.state.squares);
-    let statusFlag;
-    let status;
-    if (winner){
-      statusFlag = 'Winner: ';
-      status = winner;
-    }else{
-      statusFlag = 'Next player: ';
-      status = (this.state.xIsNext ? 'X' : '0');
-    }
     return (
       <div>
-        <div className="status">{statusFlag}<span>{status}</span></div>
+        <div className="status"><span></span></div>
         <div className="game-grid">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
@@ -76,16 +42,69 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
+  /*lift state into Game*/
+  constructor(props){
+    super(props);
+    this.state = {
+      history: [{
+        squares: Array(9).fill(null)
+      }],
+      xIsNext: true,//X moves 1st by default
+    }
+  }
+  handleClick(i){
+    const history = this.state.history;
+    const current = history[history.length -1];
+    /*create a copy of the squares array, and treat it as immutable*/
+    //https://reactjs.org/tutorial/tutorial.html#why-immutability-is-important
+    const squares = current.squares.slice();
+    /*if a winner, or if a Square is already filled, ignore click & return early*/
+    if (calculateWinner(squares) || squares[i]){
+      return;
+    }
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    this.setState({
+      /*concat() doesn’t mutate the original array*/
+      history: history.concat([{
+        squares:squares,
+      }]),
+      /*flip xIsNext's boolean state*/
+      xIsNext: !this.state.xIsNext,
+    });
+  }
   render() {
+    /*use most recent history for game status*/
+    const history = this.state.history;
+    const current = history[history.length -1];
+    const winner = calculateWinner(current.squares);
+    const moves = history.map((step, move) => {
+      const desc = move ?
+      'Go to move #' + move :
+      'Go to game start';
+      return (
+        <li>
+          <button onClick={() => this.jumpTo(move)}> {desc}</button>
+        </li>
+      )
+    });
+    let status;
+    if (winner){
+      status = "Winner: " + winner;
+    } else{
+      status = "Next player: " +(this.state.xIsNext ? 'X' : '0');
+    }
     return (
       <div className="game">
       <h2 className="game-name">Tic Tac Toe</h2>
         <div className="game-board">
-          <Board />
+          <Board
+            squares = {current.squares}
+            onClick={(i) => this.handleClick(i)}
+          />
         </div>
         <div className="game-info">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
+          <div>{status}</div>
+          <ol>{moves}</ol>
         </div>
       </div>
     );
